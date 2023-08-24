@@ -14,7 +14,7 @@ public struct Cell
     public Vector3Int position;
     public Type type;
     public int number;
-    public bool revelaed;
+    public bool revealed;
     public bool flagged;
     public bool exploded;
 }

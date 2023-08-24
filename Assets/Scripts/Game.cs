@@ -27,6 +27,7 @@ public class Game : MonoBehaviour
 
         GenerateCells();
         GenerateMines();
+        GenerateNumbers();
 
         board.Draw(state);
     }
@@ -61,7 +62,57 @@ public class Game : MonoBehaviour
             }
 
             state[x,y].type = Cell.Type.Mine;
-            state[x,y].revelaed = true;
+            state[x,y].revealed = true;
         }
+    }
+
+    private void GenerateNumbers()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                var cell = state[x,y];
+
+                if (cell.type == Cell.Type.Mine)
+                    continue;
+
+                cell.number = CountMines(x, y);
+                if (cell.number > 0)
+                {
+                    cell.type = Cell.Type.Number;
+                }
+
+                cell.revealed = true;
+                state[x, y] = cell;
+            }
+        }
+    }
+
+    private int CountMines(int cellX, int cellY)
+    {
+        var count = 0;
+
+        for (int adjacentX = -1; adjacentX <= 1; adjacentX++)
+        {
+            for (int adjacentY = -1; adjacentY <= 1; adjacentY++)
+            {
+                if (adjacentX == 0 && adjacentY == 0)
+                    continue;
+
+                var x = cellX + adjacentX;
+                var y = cellY + adjacentY;
+
+                if (x < 0 || x >= width || y < 0 || y >= height)
+                    continue;
+
+                if (state[x, y].type == Cell.Type.Mine)
+                {
+                    count++;
+                }
+            }
+        }
+
+        return count;
     }
 }

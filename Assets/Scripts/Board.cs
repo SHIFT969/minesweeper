@@ -42,7 +42,7 @@ public class Board : MonoBehaviour
 
     private Tile GetTile(Cell cell)
     {
-        if (cell.revelaed)
+        if (cell.revealed)
         {
             return GetRevelaedTile(cell);
         }
